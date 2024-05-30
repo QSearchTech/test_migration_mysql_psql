@@ -54,7 +54,10 @@ def split_sql_file(sql_file, db_list):
 def write_out_file(content, out_path):
     with open(out_path, 'w') as outfile:
         for line in content:
-            outfile.write(line + '\n')
+            if "db_list" in out_path:
+                outfile.write(line + '\n')
+            else:
+                outfile.write(line)
 
 
 if __name__ == '__main__':
