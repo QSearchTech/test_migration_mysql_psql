@@ -2,7 +2,6 @@
 
 INSTANCE_NAME="psql-migrate"
 PROJECT_ID="master-experiment"
-BUCKET_ID="test_qsh_cloud_sql_migration"
 INFILE="db_list.txt"
 
 # check db_list.txt
@@ -29,11 +28,9 @@ for DATABASE_NAME in $(cat "$INFILE")
     then
       echo "$DATABASE_NAME already exists, skipping creation."
     else
-      echo "Create db"
+      echo "Create $DATABASE_NAME"
       gcloud sql databases create $DATABASE_NAME --instance="$INSTANCE_NAME" --project="$PROJECT_ID"
     fi
-    echo "Import sql"
-    gcloud sql import sql $INSTANCE_NAME gs://$BUCKET_ID/$DATABASE_NAME.sql --database="$DATABASE_NAME" --project="$PROJECT_ID"
   done
 
 echo "Finish!"

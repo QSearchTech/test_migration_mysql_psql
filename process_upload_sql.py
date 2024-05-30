@@ -36,7 +36,7 @@ def split_sql_file(sql_file, db_list):
                 # 上傳前一個資料庫的內容
                 out_path = f"sql_files/{current_db}.sql"
                 write_out_file(content=current_db_content, out_path=out_path)
-                print(f"Output {current_db}.sql")
+                print(f"Output sql_files/{current_db}.sql")
                 # 清空當前資料庫內容
                 current_db_content = []
                 if (i+2) < len(db_list):
@@ -48,7 +48,7 @@ def split_sql_file(sql_file, db_list):
         current_db = db_list[-1]
         out_path = f"sql_files/{current_db}.sql"
         write_out_file(content=current_db_content, out_path=out_path)
-        print(f"Output {current_db}.sql")
+        print(f"Output sql_files/{current_db}.sql")
 
 
 def write_out_file(content, out_path):
