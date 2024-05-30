@@ -1,4 +1,0 @@
-admin_meta
-ads
-appinfo
-autopolitics
