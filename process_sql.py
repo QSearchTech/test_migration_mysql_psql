@@ -44,9 +44,9 @@ def split_sql_file(sql_file, db_list):
             if check_point in line:
                 # print(current_db, next_db)
                 # 上傳前一個資料庫的內容
-                out_path = f"sql_files/{current_db}.sql"
+                out_path = f"sql_files/psql/{current_db}.sql"
                 write_out_file(content=current_db_content, out_path=out_path)
-                print(f"Output sql_files/{current_db}.sql")
+                print(f"Output sql_files/psql/{current_db}.sql")
                 # 清空當前資料庫內容
                 current_db_content = []
                 if (i+2) < len(db_list):
@@ -56,9 +56,9 @@ def split_sql_file(sql_file, db_list):
             current_db_content.append(line)
         # 上傳最後一個資料庫的內容
         current_db = db_list[-1]
-        out_path = f"sql_files/{current_db}.sql"
+        out_path = f"sql_files/psql/{current_db}.sql"
         write_out_file(content=current_db_content, out_path=out_path)
-        print(f"Output sql_files/{current_db}.sql")
+        print(f"Output sql_files/psql/{current_db}.sql")
 
 
 def write_out_file(content, out_path):
