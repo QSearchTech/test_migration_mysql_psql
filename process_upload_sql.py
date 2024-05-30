@@ -2,11 +2,21 @@ import re
 import sys
 from google.cloud import storage
 
+def fix_reserved_words(line: str) -> str:
+    """Fixes SQL reserved words by adding double quotes."""
+    reserved_words = ["USER", "GROUP", "ORDER"]
+    for word in reserved_words:
+        # 使用正則表達式找到保留字並加上雙引號
+        pattern = re.compile(rf'\b{word}\b', re.IGNORECASE)
+        line = pattern.sub(f'"{word}"', line)
+    return line
+
 def process_sql_syntax(input_file, output_file):
     db_list = []
     with open(input_file, 'r', encoding="utf-8") as infile, open(output_file, 'w', encoding="utf-8") as outfile:
         for line in infile:
-            # print(line)
+            line = fix_reserved_words(line)
+            line = line.replace("\\'", "")
             if line.startswith('CREATE DATABASE') or line.startswith('LOCK') or line.startswith('UNLOCK'):
                 outfile.write('-- ' + line)
             elif line.startswith('SET SCHEMA'):
