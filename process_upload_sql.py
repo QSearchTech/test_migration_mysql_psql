@@ -23,14 +23,15 @@ def process_sql_syntax(input_file, output_file):
     return db_list
 
 
-def split_sql(sql_file, db_list):
+def split_sql_file(sql_file, db_list):
     i = 0
     next_db = db_list[i+1]
     current_db_content = []
     with open(sql_file, 'r') as infile:
         for line in infile:
             # 檢查是否遇到新的資料庫段落
-            if line == f"-- SQLINES DEMO ***  `{next_db}`":
+            check_point = f"-- SQLINES DEMO ***  `{next_db}`"
+            if line == check_point:
                 # 上傳前一個資料庫的內容
                 content = "\n".join(current_db_content)
                 current_db = db_list[i]
@@ -59,10 +60,9 @@ def output_db_list(db_list):
         for db in db_list:
             outfile.write(db + '\n')
 
-
 if __name__ == '__main__':
     input_file = sys.argv[1]
     output_file = sys.argv[2]
     db_list = process_sql_syntax(input_file, output_file)
-    split_sql(sql_file=output_file, db_list=db_list)
+    split_sql_file(sql_file=output_file, db_list=db_list)
     output_db_list(db_list)
