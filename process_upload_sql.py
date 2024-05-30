@@ -2,7 +2,6 @@ import re
 import sys
 from google.cloud import storage
 
-BUCKET_NAME="test_qsh_cloud_sql_migration"
 def process_sql_syntax(input_file, output_file):
     db_list = []
     with open(input_file, 'r', encoding="utf-8") as infile, open(output_file, 'w', encoding="utf-8") as outfile:
@@ -25,44 +24,44 @@ def process_sql_syntax(input_file, output_file):
 
 def split_sql_file(sql_file, db_list):
     i = 0
+    current_db = db_list[i]
     next_db = db_list[i+1]
     current_db_content = []
-    with open(sql_file, 'r') as infile:
+    with open(sql_file, 'r', encoding="utf-8") as infile:
         for line in infile:
             # 檢查是否遇到新的資料庫段落
             check_point = f"-- SQLINES DEMO ***  `{next_db}`"
-            if line == check_point:
+            if check_point in line:
+                # print(current_db, next_db)
                 # 上傳前一個資料庫的內容
-                content = "\n".join(current_db_content)
-                current_db = db_list[i]
-                upload_db_sql(destination_blob_name=f"{current_db}.sql", data=content)
-                print(f"upload {current_db} to {BUCKET_NAME}")
+                out_path = f"sql_files/{current_db}.sql"
+                write_out_file(content=current_db_content, out_path=out_path)
+                print(f"Output {current_db}.sql")
                 # 清空當前資料庫內容
                 current_db_content = []
-                if i < len(db_list) - 1:
-                    next_db = db_list[i+1]
+                if (i+2) < len(db_list):
                     i += 1
+                    current_db = next_db
+                    next_db = db_list[i+1]
             current_db_content.append(line)
         # 上傳最後一個資料庫的內容
-        content = "\n".join(current_db_content)
         current_db = db_list[-1]
-        upload_db_sql(destination_blob_name=f"{current_db}.sql", data=content)
+        out_path = f"sql_files/{current_db}.sql"
+        write_out_file(content=current_db_content, out_path=out_path)
+        print(f"Output {current_db}.sql")
 
 
-def upload_db_sql(destination_blob_name: str, data: list) -> None:
-    client = storage.Client()
-    bucket = client.bucket(BUCKET_NAME)
-    blob = bucket.blob(destination_blob_name)
-    blob.upload_from_filename(data, content_type='application/sql')
+def write_out_file(content, out_path):
+    with open(out_path, 'w') as outfile:
+        for line in content:
+            outfile.write(line + '\n')
 
-def output_db_list(db_list):
-    with open("db_list.txt", 'w') as outfile:
-        for db in db_list:
-            outfile.write(db + '\n')
 
 if __name__ == '__main__':
     input_file = sys.argv[1]
     output_file = sys.argv[2]
     db_list = process_sql_syntax(input_file, output_file)
+    print(f"Output {output_file}")
     split_sql_file(sql_file=output_file, db_list=db_list)
-    output_db_list(db_list)
+    write_out_file(content=db_list, out_path="db_list.txt")
+    print(f"Output db_list.txt")
