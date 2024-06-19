@@ -20,7 +20,7 @@ for db in $EXISTING_DATABASES
 echo "EXISTING_DATABASES_ARRAY: ${EXISTING_DATABASES_ARRAY[@]}"
 
 
-# ceate db and import sql
+# ceate db
 for DATABASE_NAME in $(cat "$INFILE")
   do
     echo "DATABASE_NAME: $DATABASE_NAME"
