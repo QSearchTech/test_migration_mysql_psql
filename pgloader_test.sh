@@ -1,0 +1,1 @@
+./build/bin/pgloader mysql://qsh:"Q/VMy)Xj2[\I_|Jx"@34.42.234.145/history pgsql://postgres:"LwejnHswdj"@34.30.173.48/history

@@ -16,3 +16,7 @@ cd ./pgloader
 make save
 bash ../pgloader_migrate.sh
 ```
+
+以下資料庫未全部轉移成功：
+- `trend`
+- `kol`: column "kol_id" of relation "kol_pool" does not exist

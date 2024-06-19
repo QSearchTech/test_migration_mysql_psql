@@ -3,6 +3,13 @@
 INSTANCE_NAME="psql-migrate"
 PROJECT_ID="master-experiment"
 INFILE="db_list.txt"
+MYSQL_HOST="34.42.234.145"
+MYSQL_USER="qsh"
+MYSQL_PASSWORD="Q/VMy)Xj2[\I_|Jx"
+PSQL_HOST="34.30.173.48"
+PSQL_USER="postgres"
+PSQL_PASSWORD="LwejnHswdj"
+
 
 # check db_list.txt
 if [ ! -f $INFILE ]; then
@@ -20,7 +27,7 @@ for db in $EXISTING_DATABASES
 echo "EXISTING_DATABASES_ARRAY: ${EXISTING_DATABASES_ARRAY[@]}"
 
 
-# ceate db
+# ceate and migrate db
 for DATABASE_NAME in $(cat "$INFILE")
   do
     echo "DATABASE_NAME: $DATABASE_NAME"
@@ -30,6 +37,7 @@ for DATABASE_NAME in $(cat "$INFILE")
     else
       echo "Create $DATABASE_NAME"
       gcloud sql databases create $DATABASE_NAME --instance="$INSTANCE_NAME" --project="$PROJECT_ID"
+      ./pgloader/build/bin/pgloader mysql://$MYSQL_USER:$MYSQL_PASSWORD@$MYSQL_HOST/$DATABASE_NAME pgsql://$PSQL_USER:$PSQL_PASSWORD@$PSQL_HOST/$DATABASE_NAME
     fi
   done
 
