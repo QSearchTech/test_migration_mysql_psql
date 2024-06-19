@@ -1,12 +1,12 @@
 #!/bin/bash
 
-INSTANCE_NAME="psql-migrate"
+INSTANCE_NAME="qsearch-psql"
 PROJECT_ID="master-experiment"
 INFILE="db_list.txt"
 MYSQL_HOST="34.42.234.145"
 MYSQL_USER="qsh"
 MYSQL_PASSWORD="Q/VMy)Xj2[\I_|Jx"
-PSQL_HOST="34.30.173.48"
+PSQL_HOST="35.239.118.199"
 PSQL_USER="postgres"
 PSQL_PASSWORD="LwejnHswdj"
 

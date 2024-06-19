@@ -1,9 +1,6 @@
 # test_migration_mysql_psql
 
 ## MySQL to PostgreSQL
-
-
-
 ### Create databases in CloudSQL for PostgreSQL
 事先要在 google cloud sql建立 postgresql 個體，並在 ｀db_list` 填入要建立的資料庫名稱
 ```
@@ -14,9 +11,10 @@ bash create_psql_db.sh
 ```
 cd ./pgloader
 make save
-bash ../pgloader_migrate.sh
+bash ../db_migration.sh
 ```
 
 以下資料庫未全部轉移成功：
-- `trend`
+- `bundle`
 - `kol`: column "kol_id" of relation "kol_pool" does not exist
+- `trend`
