@@ -2,8 +2,8 @@
 將 MySQL (Cloud SQL) 複製遷移至現存的 PostgreSQL (Cloud SQL)
 
 ## MySQL to PostgreSQL
-事先要在 google cloud sql 建立 postgresql 個體，並在 ｀db_list.txt` 手動填入要遷移的資料庫名稱，
-然後使用 `pgloader` (https://github.com/dimitri/pgloader.git) 與 gcloud 指令來遷移資料庫。
+事先要在 google cloud sql 建立 postgresql 個體，並在 `db_list.txt` 手動填入要遷移的資料庫名稱，
+然後使用 pgloader (https://github.com/dimitri/pgloader.git) 與 gcloud 指令來遷移資料庫。
 ```
 cd ./pgloader
 make save
@@ -23,7 +23,7 @@ bash ../db_migration.sh
 
 
 ## Result
-以下資料庫未全部轉移成功（無法處理的pgloader error）：
+以下資料庫出現無法處理的pgloader error，未全部轉移成功：
 - `bundle`
 - `kol`
 - `trend`
